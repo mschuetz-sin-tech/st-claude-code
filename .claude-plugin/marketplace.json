@@ -1,0 +1,12 @@
+{
+  "name": "sin-tech",
+  "description": "Claude Code Plugins for sin-tech development",
+  "repository": "https://github.com/mschuetz-sin-tech/st-claude-code",
+  "plugins": [
+    {
+      "name": "st-dev",
+      "path": "plugins/st-dev",
+      "description": "sin-tech development plugin with skills for Spring Boot, Angular, and common workflows"
+    }
+  ]
+}

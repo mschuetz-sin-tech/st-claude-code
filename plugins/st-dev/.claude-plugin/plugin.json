@@ -1,0 +1,36 @@
+{
+  "name": "st-dev",
+  "version": "1.0.0",
+  "description": "sin-tech development plugin for Spring Boot, Angular, and common development workflows",
+  "author": "sin-tech",
+  "repository": "https://github.com/mschuetz-sin-tech/st-claude-code",
+  "skills": [
+    {
+      "name": "spring-boot-dev",
+      "path": "skills/spring-boot-dev",
+      "description": "Spring Boot 3, Java 21, JPA, Liquibase, MapStruct development"
+    },
+    {
+      "name": "angular-dev",
+      "path": "skills/angular-dev",
+      "description": "Angular 19, standalone components, signals, Angular Material"
+    }
+  ],
+  "commands": [
+    {
+      "name": "commit",
+      "path": "commands/commit.md",
+      "description": "Create a well-formatted commit message"
+    },
+    {
+      "name": "test",
+      "path": "commands/test.md",
+      "description": "Run tests and fix failures"
+    },
+    {
+      "name": "build",
+      "path": "commands/build.md",
+      "description": "Build the project and fix errors"
+    }
+  ]
+}

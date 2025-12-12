@@ -1,0 +1,69 @@
+{
+  "permissions": [
+    {
+      "pattern": "Bash(mvn clean:*)",
+      "description": "Allow Maven clean command",
+      "usedBy": ["spring-boot-dev"]
+    },
+    {
+      "pattern": "Bash(mvn compile:*)",
+      "description": "Allow Maven compile command",
+      "usedBy": ["spring-boot-dev"]
+    },
+    {
+      "pattern": "Bash(mvn test:*)",
+      "description": "Allow Maven test command",
+      "usedBy": ["spring-boot-dev"]
+    },
+    {
+      "pattern": "Bash(mvn test-compile:*)",
+      "description": "Allow Maven test-compile command",
+      "usedBy": ["spring-boot-dev"]
+    },
+    {
+      "pattern": "Bash(mvn package:*)",
+      "description": "Allow Maven package command",
+      "usedBy": ["spring-boot-dev"]
+    },
+    {
+      "pattern": "Bash(mvn spring-boot:run:*)",
+      "description": "Allow Maven Spring Boot run command",
+      "usedBy": ["spring-boot-dev"]
+    },
+    {
+      "pattern": "Bash(npm install:*)",
+      "description": "Allow npm install command",
+      "usedBy": ["angular-dev"]
+    },
+    {
+      "pattern": "Bash(npm run build:*)",
+      "description": "Allow npm build command",
+      "usedBy": ["angular-dev"]
+    },
+    {
+      "pattern": "Bash(npm run test:*)",
+      "description": "Allow npm test command",
+      "usedBy": ["angular-dev"]
+    },
+    {
+      "pattern": "Bash(npm start:*)",
+      "description": "Allow npm start command",
+      "usedBy": ["angular-dev"]
+    },
+    {
+      "pattern": "Bash(git add:*)",
+      "description": "Allow git add command",
+      "usedBy": ["spring-boot-dev", "angular-dev"]
+    },
+    {
+      "pattern": "Bash(git commit:*)",
+      "description": "Allow git commit command",
+      "usedBy": ["spring-boot-dev", "angular-dev"]
+    },
+    {
+      "pattern": "Bash(git checkout:*)",
+      "description": "Allow git checkout command",
+      "usedBy": ["spring-boot-dev", "angular-dev"]
+    }
+  ]
+}
