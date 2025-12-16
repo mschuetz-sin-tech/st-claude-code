@@ -2,50 +2,10 @@
   "name": "st-dev",
   "version": "1.0.0",
   "description": "sin-tech development plugin for Spring Boot, Angular, and common development workflows",
-  "author": "sin-tech",
-  "repository": "https://github.com/mschuetz-sin-tech/st-claude-code",
-  "skills": [
-    {
-      "name": "spring-boot-dev",
-      "path": "skills/spring-boot-dev",
-      "description": "Spring Boot 3, Java 21, JPA, Liquibase, MapStruct development",
-      "activation": {
-        "files": ["*.java"],
-        "projectIndicators": [
-          { "file": "pom.xml", "contains": "spring-boot" },
-          { "file": "build.gradle", "contains": "spring-boot" },
-          { "file": "build.gradle.kts", "contains": "spring-boot" }
-        ]
-      }
-    },
-    {
-      "name": "angular-dev",
-      "path": "skills/angular-dev",
-      "description": "Angular 19, standalone components, signals, Angular Material",
-      "activation": {
-        "files": ["*.ts", "*.html", "*.scss"],
-        "projectIndicators": [
-          { "file": "angular.json" },
-          { "file": "package.json", "contains": "@angular/core" }
-        ]
-      }
-    }
-  ],
-  "commands": [
-    {
-      "name": "commit",
-      "path": "commands/commit.md",
-      "description": "Create a well-formatted commit message"
-    },
-    {
-      "name": "test",
-      "path": "commands/test.md",
-      "description": "Run tests and fix failures"
-    },
-    {
-      "name": "build",
-      "path": "commands/build.md",
-      "description": "Build the project and fix errors"
-    }
-  ]
+  "author": {
+    "name": "sin-tech",
+    "email": "marvin.schuetz@sin-tech.de"
+  },
+  "skills": "./skills/",
+  "commands": "./commands/"
 }
