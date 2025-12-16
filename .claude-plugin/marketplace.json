@@ -1,11 +1,14 @@
 {
   "name": "sin-tech",
   "description": "Claude Code Plugins for sin-tech development",
-  "repository": "https://github.com/mschuetz-sin-tech/st-claude-code",
+  "owner": {
+    "name": "sin-tech",
+    "email": "marvin.schuetz@sin-tech.de"
+  },
   "plugins": [
     {
       "name": "st-dev",
-      "path": "plugins/st-dev",
+      "source": "./plugins/st-dev",
       "description": "sin-tech development plugin with skills for Spring Boot, Angular, and common workflows"
     }
   ]
