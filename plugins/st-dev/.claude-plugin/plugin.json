@@ -8,12 +8,27 @@
     {
       "name": "spring-boot-dev",
       "path": "skills/spring-boot-dev",
-      "description": "Spring Boot 3, Java 21, JPA, Liquibase, MapStruct development"
+      "description": "Spring Boot 3, Java 21, JPA, Liquibase, MapStruct development",
+      "activation": {
+        "files": ["*.java"],
+        "projectIndicators": [
+          { "file": "pom.xml", "contains": "spring-boot" },
+          { "file": "build.gradle", "contains": "spring-boot" },
+          { "file": "build.gradle.kts", "contains": "spring-boot" }
+        ]
+      }
     },
     {
       "name": "angular-dev",
       "path": "skills/angular-dev",
-      "description": "Angular 19, standalone components, signals, Angular Material"
+      "description": "Angular 19, standalone components, signals, Angular Material",
+      "activation": {
+        "files": ["*.ts", "*.html", "*.scss"],
+        "projectIndicators": [
+          { "file": "angular.json" },
+          { "file": "package.json", "contains": "@angular/core" }
+        ]
+      }
     }
   ],
   "commands": [
