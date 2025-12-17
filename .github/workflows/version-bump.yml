@@ -1,0 +1,84 @@
+name: Version Bump
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+    # Skip if commit is from this workflow (avoid infinite loop)
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Determine version bump type
+        id: bump-type
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Check if this push is from a merged PR
+          PR_NUMBER=$(gh pr list --state merged --base main --json number,mergeCommit --jq ".[] | select(.mergeCommit.oid == \"${{ github.sha }}\") | .number")
+
+          if [ -n "$PR_NUMBER" ]; then
+            echo "This is a PR merge (PR #$PR_NUMBER)"
+
+            # Get PR labels
+            LABELS=$(gh pr view $PR_NUMBER --json labels --jq '.labels[].name')
+            echo "Labels: $LABELS"
+
+            if echo "$LABELS" | grep -q "^bug$"; then
+              echo "bump_type=patch" >> $GITHUB_OUTPUT
+            elif echo "$LABELS" | grep -q "^minor$"; then
+              echo "bump_type=minor" >> $GITHUB_OUTPUT
+            else
+              echo "::error::PR #$PR_NUMBER has no 'minor' or 'bug' label. Skipping version bump."
+              echo "bump_type=skip" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "This is a direct push to main - bumping minor version"
+            echo "bump_type=minor" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Bump version in plugin.json
+        if: steps.bump-type.outputs.bump_type != 'skip'
+        run: |
+          PLUGIN_JSON="plugins/st-dev/.claude-plugin/plugin.json"
+          CURRENT_VERSION=$(jq -r '.version' "$PLUGIN_JSON")
+
+          echo "Current version: $CURRENT_VERSION"
+
+          # Split version into parts
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT_VERSION"
+
+          # Bump based on type
+          if [ "${{ steps.bump-type.outputs.bump_type }}" == "minor" ]; then
+            MINOR=$((MINOR + 1))
+            PATCH=0
+          elif [ "${{ steps.bump-type.outputs.bump_type }}" == "patch" ]; then
+            PATCH=$((PATCH + 1))
+          fi
+
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+          echo "New version: $NEW_VERSION"
+
+          # Update plugin.json
+          jq --arg version "$NEW_VERSION" '.version = $version' "$PLUGIN_JSON" > tmp.json && mv tmp.json "$PLUGIN_JSON"
+
+          echo "new_version=$NEW_VERSION" >> $GITHUB_ENV
+
+      - name: Commit and push version bump
+        if: steps.bump-type.outputs.bump_type != 'skip'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add plugins/st-dev/.claude-plugin/plugin.json
+          git commit -m "chore: bump version to ${{ env.new_version }} [skip ci]"
+          git push

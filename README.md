@@ -33,6 +33,7 @@ Development plugin for sin-tech projects with Spring Boot and Angular.
 | Skill | Description |
 |-------|-------------|
 | `spring-boot-dev` | Spring Boot 3, Java 21, JPA, Liquibase, MapStruct |
+| `spring-boot-testing` | Spring Boot integration testing, MockMvc, AssertJ |
 | `angular-dev` | Angular 19, standalone components, signals, Material |
 
 #### Commands
@@ -56,6 +57,16 @@ Or if manually installed:
 ```bash
 cd ~/.claude/plugins/st-dev && git pull
 ```
+
+## Versioning
+
+Version numbers are automatically incremented via GitHub Actions on push to main.
+
+**PR Merge:** Requires label `minor` or `bug`
+- `minor` → 1.0.0 → 1.1.0
+- `bug` → 1.0.0 → 1.0.1
+
+**Direct Push:** Always increments minor version.
 
 ## Development
 
