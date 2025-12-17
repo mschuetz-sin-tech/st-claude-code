@@ -1,3 +1,7 @@
+---
+description: This skill should be used when implementing Spring Boot backend features, creating REST endpoints, writing services, repositories, entities, DTOs, or MapStruct mappers. Trigger phrases include "implement endpoint", "create controller", "add service", "write repository", "create entity", "add DTO", "MapStruct mapper", "Spring Boot", "JPA", "Liquibase migration".
+---
+
 # Spring Boot Development Skill
 
 You are an expert in Spring Boot development with the sin-tech technology stack.
