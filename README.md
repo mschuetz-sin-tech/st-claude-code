@@ -34,13 +34,15 @@ Development plugin for sin-tech projects with Spring Boot and Angular.
 |-------|-------------|
 | `spring-boot-dev` | Spring Boot 3, Java 21, JPA, Liquibase, MapStruct |
 | `spring-boot-testing` | Spring Boot integration testing, MockMvc, AssertJ |
-| `angular-dev` | Angular 19, standalone components, signals, Material |
+| `angular-dev` | Angular 21, standalone components, signals, Material |
 
 #### Commands
 
 | Command | Description |
 |---------|-------------|
 | `/commit` | Create a well-formatted commit message |
+| `/create-commit-message` | Generate commit message without committing |
+| `/fix-intellij-warnings` | Fix IntelliJ warnings and errors before commit |
 | `/test` | Run tests and fix failures |
 | `/build` | Build the project and fix errors |
 

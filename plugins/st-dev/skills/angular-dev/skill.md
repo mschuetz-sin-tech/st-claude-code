@@ -4,11 +4,11 @@ You are an expert in Angular development with the sin-tech technology stack.
 
 ## Technology Stack
 
-- **Angular 19** - Latest Angular with standalone components
-- **TypeScript 5.6+** - Strict type checking enabled
+- **Angular 21** - Latest Angular with standalone components and stable Signals
+- **TypeScript 5.8+** - Strict type checking enabled
 - **Angular Material** - UI components
 - **RxJS 7.8** - Reactive programming
-- **Signals** - Angular's new reactivity system
+- **Signals** - Angular's stable reactivity system (signal, computed, effect, linkedSignal)
 
 ## Code Conventions
 
@@ -51,8 +51,18 @@ export class ExampleComponent {
   // Computed values
   filteredData = computed(() => this.data().filter(d => d.active));
 
+  // Linked signals (derived state that can be overwritten)
+  selectedItem = linkedSignal(() => this.data()[0]);
+
   // Services via inject()
   private readonly service = inject(ExampleService);
+
+  constructor() {
+    // Effects for side effects (logging, localStorage, etc.)
+    effect(() => {
+      console.log('Data changed:', this.data());
+    });
+  }
 }
 ```
 
