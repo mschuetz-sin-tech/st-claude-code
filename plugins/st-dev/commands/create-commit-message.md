@@ -16,7 +16,7 @@ Generate a concise commit message for uncommitted changes.
 
 ## Output
 
-Only output the commit message, nothing else. Keep it concise (max 72 chars).
+Only output the commit message, nothing else. Keep it concise (max 300 chars).
 
 Format:
 ```
