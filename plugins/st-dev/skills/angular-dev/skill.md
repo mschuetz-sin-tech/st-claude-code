@@ -1,3 +1,7 @@
+---
+description: This skill should be used when implementing Angular frontend features, creating components, services, or working with Signals. Trigger phrases include "Angular component", "standalone component", "Signal", "effect", "computed", "input signal", "Angular Material", "@for", "@if", "RxJS".
+---
+
 # Angular Development Skill
 
 You are an expert in Angular development with the sin-tech technology stack.
@@ -76,6 +80,7 @@ Detailed examples are in separate files to keep this skill lean. Read the releva
 | **Sticky Table Headers** | Table with fixed header that doesn't jump | `examples/sticky-table.md` |
 | **Infinite Scroll** | Auto-load more data on scroll | `examples/infinite-scroll.md` |
 | **Truncated Popup** | Show full text on click for truncated cells | `examples/truncated-popup.md` |
+| **Effect Infinite Loop** | Avoid infinite loops with `effect()` and async calls | `examples/effect-infinite-loop.md` |
 
 ### Quick Reference
 

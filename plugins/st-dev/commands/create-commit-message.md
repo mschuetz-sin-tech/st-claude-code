@@ -43,6 +43,12 @@ Changes:
 
 ## Output
 
-Output ONLY the commit message in a code block, nothing else.
+Present the commit message with a brief intro for easy copying:
+
+"Here's your commit message:"
+
+```
+<the message>
+```
 
 Do NOT stage or commit the changes - only generate and output the message.
