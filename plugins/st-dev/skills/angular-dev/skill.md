@@ -39,38 +39,22 @@ You are an expert in Angular development with the sin-tech technology stack.
   styleUrls: ['./example.component.scss']
 })
 export class ExampleComponent {
-  // Signal-based inputs
-  data = input<DataType[]>([]);
-
-  // Signal-based outputs
-  dataChange = output<DataType>();
-
-  // Internal state with signals
-  loading = signal(false);
-
-  // Computed values
-  filteredData = computed(() => this.data().filter(d => d.active));
-
-  // Linked signals (derived state that can be overwritten)
-  selectedItem = linkedSignal(() => this.data()[0]);
-
-  // Services via inject()
+  data = input<DataType[]>([]);           // Signal-based input
+  dataChange = output<DataType>();         // Signal-based output
+  loading = signal(false);                 // Internal state
+  filteredData = computed(() =>            // Computed value
+    this.data().filter(d => d.active)
+  );
   private readonly service = inject(ExampleService);
-
-  constructor() {
-    // Effects for side effects (logging, localStorage, etc.)
-    effect(() => {
-      console.log('Data changed:', this.data());
-    });
-  }
 }
 ```
 
 ## Template Syntax
 
-- Use `@if` / `@else` instead of `*ngIf`
-- Use `@for` with `track` instead of `*ngFor`
-- Use `@switch` / `@case` instead of `ngSwitch`
+Use new control flow syntax:
+- `@if` / `@else` instead of `*ngIf`
+- `@for` with `track` instead of `*ngFor`
+- `@switch` / `@case` instead of `ngSwitch`
 
 ```html
 @if (loading()) {
@@ -81,6 +65,25 @@ export class ExampleComponent {
   }
 }
 ```
+
+## UI/UX Patterns
+
+Detailed examples are in separate files to keep this skill lean. Read the relevant example when needed:
+
+| Pattern | When to Use | Example File |
+|---------|-------------|--------------|
+| **Full-Height Layout** | Page fills viewport, only content scrolls | `examples/full-height-layout.md` |
+| **Sticky Table Headers** | Table with fixed header that doesn't jump | `examples/sticky-table.md` |
+| **Infinite Scroll** | Auto-load more data on scroll | `examples/infinite-scroll.md` |
+| **Truncated Popup** | Show full text on click for truncated cells | `examples/truncated-popup.md` |
+
+### Quick Reference
+
+- **Flexbox chain**: Every container needs `min-height: 0`
+- **Sticky headers**: Use `border-collapse: separate`, not `collapse`
+- **Row backgrounds**: Apply to `td`, not `tr` (with separate)
+- **Router-outlet**: Style with `router-outlet + *` selector
+- **Host element**: Always style `:host` for flex participation
 
 ## Best Practices
 
@@ -95,22 +98,15 @@ export class ExampleComponent {
 - Always validate user input
 
 ### Performance
-- Use `trackBy` / `track` in loops
+- Use `track` in `@for` loops
 - Lazy load routes where appropriate
 - Use OnPush change detection where possible
 
 ## Common Commands
 
 ```bash
-# Install dependencies
-npm install
-
-# Development server
-npm start
-
-# Build for production
-npm run build
-
-# Run tests
-npm run test
+npm install      # Install dependencies
+npm start        # Development server
+npm run build    # Build for production
+npm run test     # Run tests
 ```
