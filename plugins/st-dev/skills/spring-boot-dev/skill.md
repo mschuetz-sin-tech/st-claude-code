@@ -6,6 +6,15 @@ description: This skill should be used when implementing Spring Boot backend fea
 
 You are an expert in Spring Boot development with the sin-tech technology stack.
 
+## Examples
+
+For detailed code examples, see:
+
+| Topic | Example File |
+|-------|--------------|
+| MapStruct Mappers | [mapstruct-mapper.md](examples/mapstruct-mapper.md) |
+| Liquibase Changesets | [liquibase-changeset.md](examples/liquibase-changeset.md) |
+
 ## Technology Stack
 
 - **Java 21** - Use modern Java features (records, pattern matching, sealed classes)
@@ -102,6 +111,10 @@ com.company.project/
 
 ### MapStruct
 
+**Critical Rule: ALWAYS use MapStruct mappers for entity-DTO transformations. NEVER write manual mapping methods in services.**
+
+See [mapstruct-mapper.md](examples/mapstruct-mapper.md) for complete examples.
+
 **Interface vs Abstract Class - choose based on use case:**
 
 - **Interface (with `@Context`)**: For batch operations (lists) - avoids N+1 queries
@@ -130,9 +143,25 @@ com.company.project/
 - Mapping a single object → Abstract Class + `@Autowired` (load data in `@AfterMapping`)
 
 ### Liquibase
+
+See [liquibase-changeset.md](examples/liquibase-changeset.md) for complete examples.
+
+**Critical Rules:**
+- **Never modify existing changesets** - Liquibase tracks checksums. Any change to an already-executed changeset causes deployment failures.
+- **Always create new files** - When adding schema changes, create a new numbered file instead of modifying existing ones.
+
+**Naming Convention:** `NNNNN_short_description.xml`
+- 5-digit sequential number for clear ordering (00001, 00002, ...)
+- Lowercase with underscores
+- Short descriptive name
+
+Example: `00001_compoundplates_fk.xml`, `00002_add_supplier_table.xml`
+
+**Best Practices:**
 - Always add preconditions for production safety
 - Use `onFail="MARK_RAN"` for idempotent migrations
 - Separate changelogs per database if using multi-database setup
+- Use `<include>` in master changelog to organize changesets
 
 ### Testing
 - Use `@SpringBootTest` for integration tests

@@ -1,4 +1,4 @@
-Generate a comprehensive commit message for uncommitted changes.
+Generate a concise but informative commit message for uncommitted changes.
 
 ## Instructions
 
@@ -10,18 +10,25 @@ Generate a comprehensive commit message for uncommitted changes.
 
 ## Commit Message Format
 
-Follow conventional commits with a detailed body:
+Follow conventional commits with a concise body:
 
 ```
 <type>(<scope>): <short summary>
 
-<detailed description of what changed and why>
+<1-2 sentence description of what changed and why>
 
 Changes:
-- <specific change 1>
-- <specific change 2>
-- ...
+- <change 1>
+- <change 2>
+- <change 3>
 ```
+
+### Length Guidelines
+- **Body description**: 1-2 sentences maximum, focus on the WHY
+- **Changes list**: 3-5 bullet points (group related changes together)
+- **Total message**: Should fit comfortably in a terminal window (~15-20 lines max)
+- Avoid repeating information between body and changes list
+- Skip trivial details (imports, minor refactors) unless they're the main change
 
 ### Types
 - `feat:` new features
@@ -35,11 +42,8 @@ Changes:
 ### Guidelines
 - **Summary line**: Max 72 chars, imperative mood ("Add feature" not "Added feature")
 - **Scope**: Optional, e.g. `feat(frontend):` or `fix(api):`
-- **Body**: Explain WHAT changed and WHY, not just HOW
-- **Changes list**: Group related changes, be specific about files/components affected
-- For UI changes: mention affected components and visual changes
-- For API changes: mention endpoints and request/response changes
-- For refactoring: explain the before/after structure
+- **Body**: Explain WHAT changed and WHY in 1-2 sentences
+- **Changes list**: Group related changes, mention components/layers affected (e.g. "Backend: ...", "Frontend: ...")
 
 ## Output
 
