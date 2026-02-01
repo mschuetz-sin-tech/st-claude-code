@@ -10,3 +10,7 @@ Thumbs.db
 # Node (falls später CLI hinzugefügt wird)
 node_modules/
 dist/
+
+# Local settings (contain user-specific paths)
+.claude/settings.local.json
+*.local.json

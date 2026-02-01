@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(mkdir:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git -C \"C:\\\\Users\\\\MarvinSchütz\\\\Workspace\\\\sin-tech\\\\st-claude-code\" status)",
+      "Bash(ls:*)"
     ]
   }
 }
