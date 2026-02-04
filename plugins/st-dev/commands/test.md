@@ -1,3 +1,7 @@
+---
+description: Run tests and fix any failures. Trigger phrases include "run tests", "execute tests", "fix failing tests", "maven test", "npm test".
+---
+
 Run tests and fix any failures.
 
 ## Instructions

@@ -1,3 +1,7 @@
+---
+description: Build the project and fix any compilation errors. Trigger phrases include "build project", "compile", "fix build errors", "maven build", "npm build".
+---
+
 Build the project and fix any compilation errors.
 
 ## Instructions

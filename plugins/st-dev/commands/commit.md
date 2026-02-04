@@ -1,3 +1,7 @@
+---
+description: Create a git commit with conventional commit format. Trigger phrases include "commit changes", "create commit", "git commit".
+---
+
 Create a git commit for the current changes.
 
 ## Instructions

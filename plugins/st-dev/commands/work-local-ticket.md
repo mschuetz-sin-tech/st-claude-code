@@ -1,9 +1,11 @@
 ---
-description: Work on the next ticket - creates branch, implements, commits, pushes, and creates Bitbucket PR
+description: Work on a local markdown ticket from docs/tickets/. Creates branch, implements, commits, pushes, and creates Bitbucket PR. Trigger phrases include "work ticket", "next ticket", "implement ticket".
 allowed_args: "[ticket-id]"
 ---
 
-Work on a ticket from the project's ticket directory.
+Work on a local markdown ticket from the project's `docs/tickets/` directory.
+
+**Note:** This command only works with local ticket files (e.g., `docs/tickets/sprint-1/T-001.md`), not external ticket systems like Jira.
 
 ## Instructions
 
@@ -11,13 +13,37 @@ Work on a ticket from the project's ticket directory.
 
 If a ticket ID was provided as argument (e.g., `T-001`), find that ticket.
 
-Otherwise, list available tickets:
+Otherwise, determine which tickets are still open:
+
+#### 1.1 List all tickets
 
 ```bash
 ls docs/tickets/*/T-*.md 2>/dev/null | head -20
 ```
 
-Pick the next unimplemented ticket in sequence.
+#### 1.2 Find already completed tickets
+
+Check which tickets have been merged into main:
+
+```bash
+git log --oneline main | grep -oE "T-[0-9]+" | sort -u
+```
+
+#### 1.3 Find tickets currently in progress
+
+Check for existing feature branches:
+
+```bash
+git branch -a | grep -oE "feature/T-[0-9]+" | grep -oE "T-[0-9]+" | sort -u
+```
+
+#### 1.4 Select the next open ticket
+
+Compare the lists to find tickets that are:
+- NOT in the merged commits list (not completed)
+- NOT in the active branches list (not in progress)
+
+Pick the lowest numbered ticket that meets both criteria.
 
 ### 2. Read the Ticket
 

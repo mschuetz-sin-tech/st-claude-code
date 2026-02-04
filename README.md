@@ -35,16 +35,21 @@ Development plugin for sin-tech projects with Spring Boot and Angular.
 | `spring-boot-dev` | Spring Boot 3, Java 21, JPA, Liquibase, MapStruct |
 | `spring-boot-testing` | Spring Boot integration testing, MockMvc, AssertJ |
 | `angular-dev` | Angular 21, standalone components, signals, Material |
+| `bitbucket-pr` | Create Pull Requests via Bitbucket API |
 
 #### Commands
 
 | Command | Description |
 |---------|-------------|
+| `/build` | Build the project and fix errors |
+| `/test` | Run tests and fix failures |
 | `/commit` | Create a well-formatted commit message |
 | `/create-commit-message` | Generate commit message without committing |
 | `/fix-intellij-warnings` | Fix IntelliJ warnings and errors before commit |
-| `/test` | Run tests and fix failures |
-| `/build` | Build the project and fix errors |
+| `/work-local-ticket` | Full ticket workflow: branch, implement, commit, PR |
+| `/fix-bitbucket-pr-comments` | Check open Bitbucket PRs for review comments and fix them |
+
+See [plugins/st-dev/README.md](plugins/st-dev/README.md) for detailed documentation.
 
 ## Updating
 

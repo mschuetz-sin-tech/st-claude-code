@@ -1,3 +1,7 @@
+---
+description: Fix IntelliJ IDEA warnings and errors using IDE diagnostics. Trigger phrases include "fix warnings", "fix IntelliJ warnings", "clean up warnings", "IDE errors".
+---
+
 Fix IntelliJ IDEA warnings and errors before commit/push.
 
 ## Instructions

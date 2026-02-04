@@ -1,3 +1,7 @@
+---
+description: Generate a commit message for uncommitted changes without actually committing. Trigger phrases include "create commit message", "generate commit message", "preview commit".
+---
+
 Generate a concise but informative commit message for uncommitted changes.
 
 ## Instructions
