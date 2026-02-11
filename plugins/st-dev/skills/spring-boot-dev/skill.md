@@ -1,5 +1,5 @@
 ---
-description: This skill should be used when implementing Spring Boot backend features, creating REST endpoints, writing services, repositories, entities, DTOs, or MapStruct mappers. Trigger phrases include "implement endpoint", "create controller", "add service", "write repository", "create entity", "add DTO", "MapStruct mapper", "Spring Boot", "JPA", "Liquibase migration".
+description: This skill should be used when implementing Spring Boot backend features, creating REST endpoints, writing services, repositories, entities, DTOs, MapStruct mappers, OR editing Spring Boot configuration files (application.yml, application-*.yml). Trigger phrases include "implement endpoint", "create controller", "add service", "write repository", "create entity", "add DTO", "MapStruct mapper", "Spring Boot", "JPA", "Liquibase migration", "application.yml", "Spring profiles", "YAML config", "datasource config", "security config", "OAuth2 config", "mail config", "pom.xml", "Maven dependency".
 ---
 
 # Spring Boot Development Skill

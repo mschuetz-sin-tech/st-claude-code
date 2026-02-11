@@ -62,16 +62,28 @@ git checkout -b feature/T-XXX-short-name
 
 Branch naming: `feature/{ticket-id}-{short-description}`
 
-### 4. Implement the Ticket
+### 4. Analyze Required Skills
 
-- Analyze Project
-- use planning mode
+Before implementing, analyze the ticket to determine which skills to load:
+
+1. Read the ticket's technical details and acceptance criteria carefully
+2. Identify ALL technologies and file types involved (Java classes, YAML configs, Angular components, Docker files, etc.)
+3. List all available skills by scanning the plugin's skills directory and reading each skill's `description` frontmatter
+4. Match the ticket's technologies against each available skill's description and trigger phrases
+5. **Invoke ALL matching skills BEFORE starting implementation** — even if only part of the ticket touches that technology
+6. If unsure whether a skill applies, invoke it — loading an extra skill is better than missing conventions
+
+### 5. Implement the Ticket
+
+- Analyze project structure
+- Use planning mode
 - Follow the ticket requirements exactly
-- Use appropriate development skills (spring-boot-dev, angular-dev, etc.)
+- Apply conventions from ALL loaded skills
 - Follow project conventions from CLAUDE.md
 - Run tests to verify implementation
+- At the end, report which skills you loaded and why
 
-### 5. Commit Changes
+### 6. Commit Changes
 
 Stage specific files (avoid `git add .`):
 
@@ -84,13 +96,13 @@ Implements ticket T-XXX: <ticket title>
 Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 
-### 6. Push Branch
+### 7. Push Branch
 
 ```bash
 git push -u origin feature/T-XXX-short-name
 ```
 
-### 7. Create Pull Request
+### 8. Create Pull Request
 
 Use the `bitbucket-pr` skill to create the PR via Bitbucket API.
 
@@ -101,7 +113,7 @@ PR description should include:
 - Reference to ticket
 - Test plan
 
-### 8. Report Result
+### 9. Report Result
 
 Show:
 - PR URL
