@@ -11,26 +11,7 @@ You are a Bitbucket workflow assistant that helps create branches and pull reque
 - `BITBUCKET_USERNAME` - Your Bitbucket email (e.g., `marvin.schuetz@sin-tech.de`)
 - `BITBUCKET_APP_PASSWORD` - Your Bitbucket API token
 
-## Reading Environment Variables (Windows)
-
-Since environment variables may not be available in the current shell session, read them via PowerShell:
-
-```bash
-BITBUCKET_USERNAME=$(powershell -Command "[Environment]::GetEnvironmentVariable('BITBUCKET_USERNAME', 'User')")
-BITBUCKET_APP_PASSWORD=$(powershell -Command "[Environment]::GetEnvironmentVariable('BITBUCKET_APP_PASSWORD', 'User')")
-```
-
-## Detecting Repository Info
-
-Extract workspace and repo slug from git remote:
-
-```bash
-# Get remote URL and extract workspace/repo
-REMOTE_URL=$(git remote get-url origin)
-# Example: https://user@bitbucket.org/workspace/repo.git
-WORKSPACE=$(echo $REMOTE_URL | sed -E 's|.*bitbucket.org[:/]([^/]+)/.*|\1|')
-REPO_SLUG=$(echo $REMOTE_URL | sed -E 's|.*bitbucket.org[:/][^/]+/([^.]+).*|\1|')
-```
+Credentials and repository info are loaded automatically by the helper scripts in `${CLAUDE_PLUGIN_ROOT}/scripts/`. No manual setup is needed.
 
 ## Creating a Pull Request
 
@@ -43,38 +24,16 @@ POST https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequ
 ### Full Example
 
 ```bash
-# Get credentials
-BITBUCKET_USERNAME=$(powershell -Command "[Environment]::GetEnvironmentVariable('BITBUCKET_USERNAME', 'User')")
-BITBUCKET_APP_PASSWORD=$(powershell -Command "[Environment]::GetEnvironmentVariable('BITBUCKET_APP_PASSWORD', 'User')")
+BRANCH=$(git branch --show-current)
+TITLE="PR Title Here"
+BODY="## Summary
 
-# Get repo info from git remote
-REMOTE_URL=$(git remote get-url origin)
-WORKSPACE=$(echo $REMOTE_URL | sed -E 's|.*bitbucket.org[:/]([^/]+)/.*|\1|')
-REPO_SLUG=$(echo $REMOTE_URL | sed -E 's|.*bitbucket.org[:/][^/]+/([^.]+).*|\1|')
+Description here
 
-# Get current branch
-BRANCH_NAME=$(git branch --show-current)
+---
+Generated with [Claude Code](https://claude.com/claude-code)"
 
-# Create PR
-curl -s -X POST \
-  -u "$BITBUCKET_USERNAME:$BITBUCKET_APP_PASSWORD" \
-  -H "Content-Type: application/json" \
-  "https://api.bitbucket.org/2.0/repositories/$WORKSPACE/$REPO_SLUG/pullrequests" \
-  -d '{
-    "title": "PR Title Here",
-    "source": {
-      "branch": {
-        "name": "'"$BRANCH_NAME"'"
-      }
-    },
-    "destination": {
-      "branch": {
-        "name": "main"
-      }
-    },
-    "description": "## Summary\n\nDescription here\n\n---\n🤖 Generated with [Claude Code](https://claude.com/claude-code)",
-    "close_source_branch": true
-  }'
+bash "${CLAUDE_PLUGIN_ROOT}/scripts/bitbucket-create-pr.sh" "$BRANCH" "$TITLE" "$BODY"
 ```
 
 ### Response Handling
@@ -113,7 +72,7 @@ Brief description of the changes.
 - [ ] Manual testing completed
 
 ---
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
+Generated with [Claude Code](https://claude.com/claude-code)
 ```
 
 ## Common API Operations
@@ -121,15 +80,19 @@ Brief description of the changes.
 ### List Open PRs
 
 ```bash
-curl -s -u "$BITBUCKET_USERNAME:$BITBUCKET_APP_PASSWORD" \
-  "https://api.bitbucket.org/2.0/repositories/$WORKSPACE/$REPO_SLUG/pullrequests?state=OPEN"
+bash "${CLAUDE_PLUGIN_ROOT}/scripts/bitbucket-list-prs.sh"
 ```
 
-### Get PR Details
+### Get PR Branch
 
 ```bash
-curl -s -u "$BITBUCKET_USERNAME:$BITBUCKET_APP_PASSWORD" \
-  "https://api.bitbucket.org/2.0/repositories/$WORKSPACE/$REPO_SLUG/pullrequests/{pr_id}"
+bash "${CLAUDE_PLUGIN_ROOT}/scripts/bitbucket-get-pr-branch.sh" $PR_ID
+```
+
+### Get PR Comments
+
+```bash
+bash "${CLAUDE_PLUGIN_ROOT}/scripts/bitbucket-get-pr-comments.sh" $PR_ID
 ```
 
 ## Error Handling

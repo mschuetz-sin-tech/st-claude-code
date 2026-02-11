@@ -75,6 +75,21 @@ docs/
 - Checks git history for merged commits referencing ticket IDs
 - Checks for existing feature branches
 
+## Scripts
+
+Reusable Bash scripts for Bitbucket API operations. Credentials and repository info are loaded automatically (env vars with PowerShell fallback on Windows).
+
+| Script | Description | Arguments |
+|--------|-------------|-----------|
+| `bitbucket-setup.sh` | Load credentials and repo info (outputs `export` statements for `eval`) | - |
+| `bitbucket-list-prs.sh` | List open pull requests (`<id> \| <title> \| <branch>`) | - |
+| `bitbucket-get-pr-comments.sh` | Get comments on a PR (JSON array) | `<PR_ID>` |
+| `bitbucket-create-pr.sh` | Create a pull request (returns API response) | `<BRANCH> <TITLE> <BODY>` |
+| `bitbucket-reply-comment.sh` | Reply to a PR comment | `<PR_ID> <COMMENT_ID> <MESSAGE>` |
+| `bitbucket-get-pr-branch.sh` | Get source branch name of a PR | `<PR_ID>` |
+
+**Cross-platform credential loading:** Scripts check for `BITBUCKET_USERNAME` / `BITBUCKET_APP_PASSWORD` env vars first. If not set, they fall back to reading via `powershell` on Windows.
+
 ## Skills
 
 | Skill | Trigger Phrases |
@@ -125,3 +140,7 @@ Pre-approved commands for automated workflows:
 
 **git:**
 - `git add`, `commit`, `push`, `checkout`, `branch`, `status`, `diff`, `log`
+
+**Bitbucket scripts:**
+- `bitbucket-setup.sh`, `bitbucket-list-prs.sh`, `bitbucket-get-pr-comments.sh`
+- `bitbucket-create-pr.sh`, `bitbucket-reply-comment.sh`, `bitbucket-get-pr-branch.sh`

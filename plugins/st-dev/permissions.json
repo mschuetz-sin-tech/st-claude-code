@@ -64,6 +64,36 @@
       "pattern": "Bash(git checkout:*)",
       "description": "Allow git checkout command",
       "usedBy": ["spring-boot-dev", "angular-dev"]
+    },
+    {
+      "pattern": "Bash(bash \"${CLAUDE_PLUGIN_ROOT}/scripts/bitbucket-setup.sh:*)",
+      "description": "Load Bitbucket credentials and repo info",
+      "usedBy": ["bitbucket-pr", "fix-bitbucket-pr-comments"]
+    },
+    {
+      "pattern": "Bash(bash \"${CLAUDE_PLUGIN_ROOT}/scripts/bitbucket-list-prs.sh:*)",
+      "description": "List open Bitbucket pull requests",
+      "usedBy": ["fix-bitbucket-pr-comments"]
+    },
+    {
+      "pattern": "Bash(bash \"${CLAUDE_PLUGIN_ROOT}/scripts/bitbucket-get-pr-comments.sh:*)",
+      "description": "Get unresolved comments on a Bitbucket PR",
+      "usedBy": ["fix-bitbucket-pr-comments"]
+    },
+    {
+      "pattern": "Bash(bash \"${CLAUDE_PLUGIN_ROOT}/scripts/bitbucket-create-pr.sh:*)",
+      "description": "Create a Bitbucket pull request",
+      "usedBy": ["bitbucket-pr", "work-local-ticket"]
+    },
+    {
+      "pattern": "Bash(bash \"${CLAUDE_PLUGIN_ROOT}/scripts/bitbucket-reply-comment.sh:*)",
+      "description": "Reply to a Bitbucket PR comment",
+      "usedBy": ["fix-bitbucket-pr-comments"]
+    },
+    {
+      "pattern": "Bash(bash \"${CLAUDE_PLUGIN_ROOT}/scripts/bitbucket-get-pr-branch.sh:*)",
+      "description": "Get source branch name from a Bitbucket PR",
+      "usedBy": ["fix-bitbucket-pr-comments"]
     }
   ]
 }

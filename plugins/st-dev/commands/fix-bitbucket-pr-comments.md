@@ -7,70 +7,44 @@ Check open Bitbucket Pull Requests for review comments, checkout the branch, and
 
 ## Instructions
 
-### 1. Setup Credentials
-
-```bash
-BITBUCKET_USERNAME=$(powershell -Command "[Environment]::GetEnvironmentVariable('BITBUCKET_USERNAME', 'User')")
-BITBUCKET_APP_PASSWORD=$(powershell -Command "[Environment]::GetEnvironmentVariable('BITBUCKET_APP_PASSWORD', 'User')")
-
-# Get repo info
-REMOTE_URL=$(git remote get-url origin)
-WORKSPACE=$(echo $REMOTE_URL | sed -E 's|.*bitbucket.org[:/]([^/]+)/.*|\1|')
-REPO_SLUG=$(echo $REMOTE_URL | sed -E 's|.*bitbucket.org[:/][^/]+/([^.]+).*|\1|')
-```
-
-### 2. Find PR with Comments
+### 1. Find PR with Comments
 
 If a PR ID was provided as argument, use that PR.
 
 Otherwise, list open PRs authored by the current user:
 
 ```bash
-curl -s -u "$BITBUCKET_USERNAME:$BITBUCKET_APP_PASSWORD" \
-  "https://api.bitbucket.org/2.0/repositories/$WORKSPACE/$REPO_SLUG/pullrequests?state=OPEN" \
-  | jq -r '.values[] | "\(.id) | \(.title) | \(.source.branch.name)"'
+bash "${CLAUDE_PLUGIN_ROOT}/scripts/bitbucket-list-prs.sh"
 ```
 
-### 3. Get PR Comments
+### 2. Get PR Comments
 
 Fetch all comments on the PR:
 
 ```bash
 PR_ID=<selected-pr-id>
 
-curl -s -u "$BITBUCKET_USERNAME:$BITBUCKET_APP_PASSWORD" \
-  "https://api.bitbucket.org/2.0/repositories/$WORKSPACE/$REPO_SLUG/pullrequests/$PR_ID/comments" \
-  | jq -r '.values[] | select(.deleted == false) | {
-    id: .id,
-    user: .user.display_name,
-    content: .content.raw,
-    file: .inline.path,
-    line: .inline.to,
-    resolved: (.resolution != null)
-  }'
+bash "${CLAUDE_PLUGIN_ROOT}/scripts/bitbucket-get-pr-comments.sh" $PR_ID
 ```
 
-### 4. Filter Unresolved Comments
+### 3. Filter Unresolved Comments
 
 Focus on comments that:
-- Are NOT resolved (`.resolution == null`)
-- Are inline comments (have `.inline.path`)
+- Are NOT resolved (`.resolved == false`)
+- Are inline comments (have `.file`)
 - Are from reviewers (not from the PR author)
 
-### 5. Checkout the Branch
+### 4. Checkout the Branch
 
 ```bash
-# Get branch name from PR
-BRANCH_NAME=$(curl -s -u "$BITBUCKET_USERNAME:$BITBUCKET_APP_PASSWORD" \
-  "https://api.bitbucket.org/2.0/repositories/$WORKSPACE/$REPO_SLUG/pullrequests/$PR_ID" \
-  | jq -r '.source.branch.name')
+BRANCH_NAME=$(bash "${CLAUDE_PLUGIN_ROOT}/scripts/bitbucket-get-pr-branch.sh" $PR_ID)
 
 git fetch origin
 git checkout $BRANCH_NAME
 git pull origin $BRANCH_NAME
 ```
 
-### 6. Address Each Comment
+### 5. Address Each Comment
 
 For each unresolved comment:
 
@@ -81,7 +55,7 @@ For each unresolved comment:
 
 Group related comments together if they affect the same file.
 
-### 7. Run Tests
+### 6. Run Tests
 
 After making changes, verify nothing is broken:
 
@@ -94,7 +68,7 @@ elif [ -f "package.json" ]; then
 fi
 ```
 
-### 8. Commit and Push
+### 7. Commit and Push
 
 ```bash
 git add <modified-files>
@@ -108,26 +82,15 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 git push origin $BRANCH_NAME
 ```
 
-### 9. Reply to Comments (Optional)
+### 8. Reply to Comments (Optional)
 
 You can reply to comments to indicate they've been addressed:
 
 ```bash
-curl -s -X POST \
-  -u "$BITBUCKET_USERNAME:$BITBUCKET_APP_PASSWORD" \
-  -H "Content-Type: application/json" \
-  "https://api.bitbucket.org/2.0/repositories/$WORKSPACE/$REPO_SLUG/pullrequests/$PR_ID/comments" \
-  -d '{
-    "content": {
-      "raw": "Fixed in latest commit."
-    },
-    "parent": {
-      "id": <comment-id>
-    }
-  }'
+bash "${CLAUDE_PLUGIN_ROOT}/scripts/bitbucket-reply-comment.sh" $PR_ID $COMMENT_ID "Fixed in latest commit."
 ```
 
-### 10. Report Result
+### 9. Report Result
 
 Show:
 - PR URL
