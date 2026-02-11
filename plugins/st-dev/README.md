@@ -43,6 +43,7 @@ The `bitbucket-pr` skill and `/work-local-ticket` command require Bitbucket API 
 | `/fix-intellij-warnings` | Fix IDE warnings using IntelliJ diagnostics |
 | `/work-local-ticket` | Full ticket workflow: branch, implement, commit, PR |
 | `/fix-bitbucket-pr-comments` | Check open Bitbucket PRs for review comments and fix them |
+| `/sync-permissions` | Sync useful project permissions to global settings |
 
 ### /work-local-ticket
 

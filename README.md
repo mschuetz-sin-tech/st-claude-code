@@ -48,6 +48,7 @@ Development plugin for sin-tech projects with Spring Boot and Angular.
 | `/fix-intellij-warnings` | Fix IntelliJ warnings and errors before commit |
 | `/work-local-ticket` | Full ticket workflow: branch, implement, commit, PR |
 | `/fix-bitbucket-pr-comments` | Check open Bitbucket PRs for review comments and fix them |
+| `/sync-permissions` | Sync useful project permissions to global settings |
 
 See [plugins/st-dev/README.md](plugins/st-dev/README.md) for detailed documentation.
 
