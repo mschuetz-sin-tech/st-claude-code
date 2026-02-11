@@ -64,6 +64,8 @@ Branch naming: `feature/{ticket-id}-{short-description}`
 
 ### 4. Implement the Ticket
 
+- Analyze Project
+- use planning mode
 - Follow the ticket requirements exactly
 - Use appropriate development skills (spring-boot-dev, angular-dev, etc.)
 - Follow project conventions from CLAUDE.md
