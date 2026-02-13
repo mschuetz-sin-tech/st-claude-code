@@ -92,7 +92,7 @@ Common skill mappings (non-exhaustive):
 **CRITICAL — Post-implementation steps are part of this command:**
 The following steps MUST be included in the plan AND executed automatically after implementation — do NOT stop to ask the user for confirmation. This command is an explicit instruction to commit, push, and create a PR.
 
-1. **Commit step**: Stage specific files (avoid `git add .`) and commit with conventional commit format:
+1. **Commit step**: Stage specific files (avoid `git add .`) and commit with conventional commit format, do not mention 'Generated with Claude Code' in the message:
    ```
    feat(T-XXX): short description
 
