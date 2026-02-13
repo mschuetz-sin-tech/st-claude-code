@@ -102,6 +102,10 @@ com.company.project/
 
 ## Best Practices
 
+### Entity IDs
+- Use `Long` with `@GeneratedValue(strategy = GenerationType.IDENTITY)` for primary keys
+- Only use UUID if the project explicitly requires it (e.g. in CLAUDE.md)
+
 ### JPA
 - Use `@Transactional` with appropriate transaction manager
 - Prefer `findById` over `getById` (avoids lazy loading issues)
