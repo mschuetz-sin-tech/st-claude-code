@@ -89,19 +89,23 @@ Common skill mappings (non-exhaustive):
 - Follow project conventions from CLAUDE.md
 - Run tests to verify implementation
 
-**CRITICAL — Post-implementation steps are part of this command:**
-The following steps MUST be included in the plan AND executed automatically after implementation — do NOT stop to ask the user for confirmation. This command is an explicit instruction to commit, push, and create a PR.
+**CRITICAL — The plan must be fully self-contained:**
+The user may execute the plan in a fresh context (e.g., "clear context and execute plan"). When that happens, the command instructions from this file are NO LONGER available — only the plan itself remains. Therefore, the plan MUST include ALL of the following post-implementation steps as explicit steps in the plan document. Do NOT rely on the executor having access to this command's context.
 
-1. **Commit step**: Stage specific files (avoid `git add .`) and commit with conventional commit format, do not mention 'Generated with Claude Code' in the message:
+**Post-implementation steps to include in the plan:**
+
+1. **Load skills step**: List which skills to load (by name) and invoke them via the Skill tool before writing any code. Include the reasoning for each skill.
+
+2. **Commit step**: Stage specific files (avoid `git add .`) and commit with conventional commit format, do not mention 'Generated with Claude Code' in the message:
    ```
    feat(T-XXX): short description
 
    Implements ticket T-XXX: <ticket title>
 
    ```
-2. **Push step**: `git push -u origin feature/T-XXX-short-name`
-3. **Create PR step**: Use the `bitbucket-pr` skill to create the PR via Bitbucket API. PR title format: `feat(T-XXX): <ticket title>`. PR description should include summary of changes, reference to ticket, and test plan.
-4. **Report step**: Always show the following summary:
+3. **Push step**: `git push -u origin feature/T-XXX-short-name`
+4. **Create PR step**: Use the `bitbucket-pr` skill to create the PR via Bitbucket API. PR title format: `feat(T-XXX): <ticket title>`. PR description should include summary of changes, reference to ticket, and test plan.
+5. **Report step**: Always show the following summary:
 
    ```
    ## Report
