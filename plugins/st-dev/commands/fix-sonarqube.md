@@ -61,7 +61,18 @@ If there are multiple projects, use the `AskUserQuestion` tool to ask the user w
 
 Use the selected project's `key` as `<PROJECT_KEY>` for all subsequent API calls.
 
-## Step 3: Check Quality Gate Status
+## Step 3: Select Mode
+
+Use `AskUserQuestion` to ask the user which mode to use:
+
+- question: "What should be checked?"
+- options:
+  - `{"label": "Quality Gate only", "description": "Only fix issues that cause the quality gate to fail"}`
+  - `{"label": "All Issues", "description": "Fix all open issues in the project"}`
+
+Remember the selected mode for the following steps.
+
+## Step 4: Check Quality Gate Status
 
 Use the Bash tool to call the SonarQube REST API:
 
@@ -73,21 +84,33 @@ Display the quality gate status clearly:
 - If **PASSED**: show all conditions and their values
 - If **ERROR**: highlight which conditions failed (e.g. duplicated lines density > threshold, coverage < threshold, new violations > 0)
 
-## Step 4: Fetch Open Issues
+**If mode is "Quality Gate only" and the quality gate PASSED**: Tell the user the quality gate is green, no fixes needed. Skip to Step 9.
 
+## Step 5: Fetch Open Issues
+
+### If mode is "All Issues":
 ```
 curl -s -u <TOKEN>: "<SONARQUBE_URL>/api/issues/search?componentKeys=<PROJECT_KEY>&statuses=OPEN,CONFIRMED&ps=100&p=1" | jq .
 ```
 
 If there are more than 100 issues (check `total` in response), paginate by incrementing `p` until all issues are fetched.
 
-## Step 5: Display Summary
+### If mode is "Quality Gate only":
+Only fetch issues that are relevant to the failed quality gate conditions:
+
+- If `new_violations` failed: Fetch only issues in the new code period:
+  ```
+  curl -s -u <TOKEN>: "<SONARQUBE_URL>/api/issues/search?componentKeys=<PROJECT_KEY>&statuses=OPEN,CONFIRMED&inNewCodePeriod=true&ps=100&p=1" | jq .
+  ```
+- If only `new_duplicated_lines_density` or `new_coverage` failed (no `new_violations`): Skip issue fetching entirely — these are handled in Step 7 via the quality gate condition fixes.
+
+## Step 6: Display Summary
 
 ### Quality Gate Conditions
 Show a table of all quality gate conditions with status (PASSED/FAILED), metric, threshold, and actual value.
 
 ### Open Issues
-Group the issues by severity and display a summary table:
+If issues were fetched, group them by severity and display a summary table:
 
 1. **BLOCKER** — Must fix immediately
 2. **CRITICAL** — Must fix
@@ -100,10 +123,10 @@ For each issue, show:
 - Rule key (e.g. `typescript:S1234`)
 - Message describing the problem
 
-## Step 6: Fix Issues and Failed Conditions
+## Step 7: Fix Issues and Failed Conditions
 
 ### Fix Open Issues
-Work through the issues starting with BLOCKER, then CRITICAL, MAJOR, MINOR:
+If issues were fetched, work through them starting with BLOCKER, then CRITICAL, MAJOR, MINOR:
 
 1. Read the affected file
 2. Understand the issue based on the rule and message
@@ -129,7 +152,7 @@ For each failed condition, investigate and fix the root cause:
 
 - **new_violations** (new issues introduced): These should already be covered by the open issues fix above.
 
-## Step 7: Verify
+## Step 8: Verify
 
 After all fixes are applied, detect the project type and run the appropriate build:
 - If `pom.xml` exists → `mvn clean compile`
@@ -137,7 +160,7 @@ After all fixes are applied, detect the project type and run the appropriate bui
 
 If the build fails, fix the build errors before finishing.
 
-## Step 8: Summary
+## Step 9: Summary
 
 Provide a summary of:
 - Quality gate status and which conditions were addressed
