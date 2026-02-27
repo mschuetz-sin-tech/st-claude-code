@@ -18,7 +18,6 @@ Guide the user through creating the config interactively:
 
 1. Use `AskUserQuestion` to ask for the SonarQube server URL:
    - question: "What is the SonarQube server URL?"
-   - options: `[{"label": "https://sonar.amk-tpt.de", "description": "TPT SonarQube"}, {"label": "https://sonarcloud.io", "description": "SonarCloud"}]`
 
 2. Use `AskUserQuestion` to ask for the authentication token:
    - question: "What is your SonarQube token? (will be stored locally in .claude/sonarqube.local.md, which is gitignored)"
