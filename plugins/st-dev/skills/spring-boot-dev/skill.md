@@ -102,6 +102,43 @@ com.company.project/
 
 ## Best Practices
 
+### Configuration Properties
+
+**Critical Rule: Read configuration with `@Value` naming the full property key. NEVER use prefix-bound `@ConfigurationProperties`.**
+
+The reason is searchability. A developer who wants to know where `nile.read-timeout` is used must be able to grep the whole project for that exact string and find both the YAML that sets it and the Java that reads it. With `@ConfigurationProperties(prefix = "nile")` the key never appears in Java — only a `readTimeout` field — so the search comes up empty and the connection between YAML and code is invisible.
+
+```java
+// GOOD - "nile.read-timeout" is greppable across the project
+@Getter
+public class NileClientProperties {
+
+    private final String baseUrl;
+    private final Duration readTimeout;
+
+    public NileClientProperties(
+            @Value("${nile.base-url}") final String baseUrl,
+            @Value("${nile.read-timeout}") final String readTimeout) {
+        this.baseUrl = baseUrl;
+        this.readTimeout = DurationStyle.detectAndParse(readTimeout);
+    }
+}
+
+// BAD - grepping for "nile.read-timeout" finds only the YAML, never the Java
+@ConfigurationProperties(prefix = "nile")
+public class NileClientProperties {
+    private Duration readTimeout;
+}
+```
+
+**Two gotchas that come with `@Value`:**
+
+1. **`Duration` and `DataSize` do not convert.** `@Value` uses the plain environment conversion service, which does not understand the `300s` / `10MB` shorthand that `@ConfigurationProperties` accepts. Take the parameter as `String` and convert explicitly with `DurationStyle.detectAndParse(...)` or `DataSize.parse(...)`, so the YAML keeps its usual notation.
+
+2. **Bean registration.** Such a class is no longer registered by `@EnableConfigurationProperties`. Annotate it with `@Component` when a component scan covers its package, or `@Import` it from the `@Configuration` class that needs it — the latter also works in narrow test contexts built with `ApplicationContextRunner`.
+
+**Defaults belong in the YAML, not in Java.** Write `@Value("${nile.read-timeout}")` without a `:fallback`, so a missing property fails the startup with a message naming the key. A default in both places is two sources for one value that drift apart; `application.yml` is the single source, profile files override only what genuinely differs per environment.
+
 ### Entity IDs
 - Use `Long` with `@GeneratedValue(strategy = GenerationType.IDENTITY)` for primary keys
 - Only use UUID if the project explicitly requires it (e.g. in CLAUDE.md)
